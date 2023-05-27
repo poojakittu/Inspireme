@@ -1,0 +1,147 @@
+.main{
+   
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    width: 98%;
+    gap: 10px;
+}
+
+.productimg{
+    transition: transform 0.5s ease;
+}
+
+.productimg:hover{
+    transform: scale(1.2);
+}
+
+.filters{
+   
+    width: 100%;
+}
+
+.products{
+   
+    width: 80%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    overflow: scroll;
+    gap: 10px;
+ 
+  
+}
+.products::-webkit-scrollbar {
+    display: none;
+  }
+.filter1{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1.1748px solid #D9D9D9;
+}
+
+
+@media all and (min-width: 0px) and (max-width: 680px) {
+    .main{
+       
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .products{
+       
+        width: 80%;
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+    }
+
+    .filters{
+        display: grid;
+       
+        width: 75%;
+        
+        margin: auto;
+        grid-template-columns: repeat(2, 1fr);
+        
+        gap: 10px;
+        justify-content: center;
+        grid-template-areas:
+          "a b"
+          "a c"
+          "d d";
+    }
+
+    .filters>div:nth-child(1){
+        
+        grid-area: a;
+    }
+    .filters>div:nth-child(2){
+        
+        grid-area: b;
+    }
+    .filters>div:nth-child(3){
+        
+        grid-area: c;
+    }
+    .filters>div:nth-child(4){
+        
+        grid-area: d;
+    }
+
+}
+
+@media all and (min-width: 681px) and (max-width: 1180px) {
+    .main{
+       
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .products{
+       
+        width: 80%;
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .filters{
+        display: grid;
+       
+        width: 75%;
+        
+        margin: auto;
+        grid-template-columns: repeat(2, 1fr);
+        
+        gap: 10px;
+        justify-content: center;
+        grid-template-areas:
+          "a b"
+          "a c"
+          "d d";
+    }
+
+    .filters>div:nth-child(1){
+        
+        grid-area: a;
+    }
+    .filters>div:nth-child(2){
+        
+        grid-area: b;
+    }
+    .filters>div:nth-child(3){
+        
+        grid-area: c;
+    }
+    .filters>div:nth-child(4){
+        
+        grid-area: d;
+    }
+
+}
