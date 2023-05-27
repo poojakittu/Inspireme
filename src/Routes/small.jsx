@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Grid, Heading, Image, Text } from "@chakra-ui/react";
-import "@fontsource/roboto";
+import "@fontsource/poppins";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -36,7 +36,7 @@ const ProductRow1 = () => {
     <Box w={"90%"} m={"auto"}>
       <Heading
         fontSize={"34px"}
-        fontFamily={"Roboto"}
+        fontFamily={"Poppins"}
         color={"Black"}
         letterSpacing="0.01em"
         lineHeight={"37px"}
@@ -75,7 +75,7 @@ const ProductRow1 = () => {
               <>
                 <Heading
                   size="xl"
-                  fontFamily={"Roboto"}
+                  fontFamily={"Poppins"}
                   color={"Black"}
                   pt={"90px"}
                   w={"40%"}
@@ -89,7 +89,7 @@ const ProductRow1 = () => {
                   color="white"
                   borderRadius="20px"
                   _hover={{ bg: "gray.800" }}
-                  fontFamily={"Roboto"}
+                  fontFamily={"Poppins"}
                   fontSize={"25px"}
                   p={"10px 30px"}
                   mt={"10px"}
@@ -103,21 +103,22 @@ const ProductRow1 = () => {
                 <Image
                   src="applep.jpg"
                   alt={product.Image}
-                  p="0px 90px"
                   width={"80%"}
                   m={"auto"}
                   height={"200px"}
                   justifyContent={"center"}
+                  w="164px"
+                  h={"222.45px"}
                 />
                 <br />
-                <Heading size="xl" mt={1} fontFamily={"Roboto"} color={"Black"}>
+                <Heading size="lg" mt={1} fontFamily={"Poppins"} color={"Black"}>
                   {product.title}
                 </Heading>
 
-                <Text fontSize="25px" color="gray.900" pt={"8px"}>
-                  From{product.price}
+                <Text fontSize="20px" color="gray.900" pt={"8px"}>
+                  From{" "}{product.price}
                 </Text>
-                <Text fontSize="23px" color="gray.900" p={"3px 10px"}>
+                <Text fontSize="20px" color="gray.900" p={"3px 10px"}>
                   Additional carrier financing options are available. Footnote*
                 </Text>
               </>

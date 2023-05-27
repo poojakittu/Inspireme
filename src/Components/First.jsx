@@ -2,13 +2,14 @@ import { Grid, Box, Image, Text, Heading } from "@chakra-ui/react";
 import "@fontsource/raleway/400.css";
 import "@fontsource/open-sans/700.css";
 import { Link } from "react-router-dom";
-import "@fontsource/roboto";
+import "@fontsource/poppins";
+
 
 const First = () => {
   return (
     <Box mt="270px">
       <Heading
-        fontFamily={"Roboto"}
+        fontFamily={"Poppins"}
         color={"Black"}
         fontSize={"40px"}
         letterSpacing="0.01em"
@@ -20,7 +21,7 @@ const First = () => {
       </Heading>
       <Text
         fontSize={"22px"}
-        fontFamily={"Roboto"}
+        fontFamily={"Poppins"}
         color={"Black"}
         letterSpacing="0.01em"
         lineHeight={"28px"}
@@ -44,9 +45,15 @@ const First = () => {
       >
         <Link to="/iphone">
           <Box>
-            <Image src="applep.jpg" alt="iphone" />
+            <Image
+              src="applep.jpg"
+              alt="iphone"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               iPhone
             </Text>
           </Box>
@@ -54,45 +61,76 @@ const First = () => {
 
         <Link to="/mac">
           <Box>
-            <Image src="watch.jpg" alt="Dan Abramov" />
+            <Image
+              src="mac.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               Mac
             </Text>
           </Box>
         </Link>
-        <Link to="/airpods">
-          <Box>
-            <Image src="watch.jpg" alt="Dan Abramov" />
+        <Link to="/mac">
+          <Box
+          >
+            <Image
+              src="imac.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               iMac
             </Text>
           </Box>
         </Link>
         <Link to="/ipad">
           <Box>
-            <Image src="watch.jpg" alt="Dan Abramov" />
+            <Image
+              src="watch.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               iPad
             </Text>
           </Box>
         </Link>
         <Link to="/watch">
           <Box>
-            <Image src="watch.jpg" alt="Dan Abramov" />
+            <Image
+              src="watch.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               Watch
             </Text>
           </Box>
         </Link>
         <Link to="/acc">
           <Box>
-            <Image src="watch.jpg" alt="Dan Abramov" />
+            <Image
+              src="ass.png"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400"  fontFamily={"Poppins"}>
               Accessories
             </Text>
           </Box>

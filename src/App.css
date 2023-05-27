@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+*{
+font-family: Poppins;
+}
 
 .App-logo {
   height: 40vmin;

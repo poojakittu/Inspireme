@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Grid, Heading, Image, Text } from "@chakra-ui/react";
-import "@fontsource/roboto";
+import "@fontsource/poppins";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -36,7 +36,7 @@ const SmallAss = () => {
     <Box w={"90%"} m={"auto"}>
       <Heading
         fontSize={"34px"}
-        fontFamily={"Roboto"}
+        fontFamily={"Poppins"}
         color={"Black"}
         letterSpacing="0.01em"
         lineHeight={"37px"}
@@ -75,7 +75,7 @@ const SmallAss = () => {
               <>
                 <Heading
                   fontSize={"30px"}
-                  fontFamily={"Roboto"}
+                  fontFamily={"Poppins"}
                   color={"Black"}
                   pt={"90px"}
                   w={"50%"}
@@ -89,7 +89,7 @@ const SmallAss = () => {
                   color="white"
                   borderRadius="20px"
                   _hover={{ bg: "gray.800" }}
-                  fontFamily={"Roboto"}
+                  fontFamily={"Poppins"}
                   fontSize={"20px"}
                   p={"10px 20px"}
                   mb={"140px"}
@@ -100,20 +100,22 @@ const SmallAss = () => {
             ) : (
               <Box>
                 <Image
-                  src={product.phoneColour[0].img2}
-                  alt={product.title}
-                  p="0px 50px"
-                  width={"100%"}
+                  src="applep.jpg"
+                  alt={product.Image}
+                  width={"80%"}
                   m={"auto"}
                   height={"200px"}
                   justifyContent={"center"}
+                  w="164px"
+                  h={"222.45px"}
+               
                 />
                 <br />
 
                 <Heading
                   fontSize={"30px"}
                   mt={1}
-                  fontFamily={"Roboto"}
+                  fontFamily={"Poppins"}
                   color={"Black"}
                 >
                   {product.title}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Grid, Heading, Image, Text } from "@chakra-ui/react";
-import "@fontsource/roboto";
+import "@fontsource/poppins";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -35,7 +35,7 @@ const SmallWatch = () => {
     <Box w={"90%"} m={"auto"} >
       <Heading
         fontSize={"34px"}
-        fontFamily={"Roboto"}
+        fontFamily={"Poppins"}
         color={"Black"}
         letterSpacing="0.01em"
         lineHeight={"37px"}
@@ -74,7 +74,7 @@ const SmallWatch = () => {
               <>
                 <Heading
                   size="xl"
-                  fontFamily={"Roboto"}
+                  fontFamily={"Poppins"}
                   color={"Black"}
                   pt={"90px"}
                   w={"40%"}
@@ -88,7 +88,7 @@ const SmallWatch = () => {
                   color="white"
                   borderRadius="20px"
                   _hover={{ bg: "gray.800" }}
-                  fontFamily={"Roboto"}
+                  fontFamily={"Poppins"}
                   fontSize={"25px"}
                   p={"10px 30px"}
                   mt={"10px"}
@@ -102,14 +102,15 @@ const SmallWatch = () => {
                 <Image
                   src="applep.jpg"
                   alt={product.Image}
-                  p="0px 90px"
                   width={"80%"}
                   m={"auto"}
                   height={"200px"}
                   justifyContent={"center"}
+                  w="164px"
+                  h={"222.45px"}
                 />
                 <br />
-                <Heading size="xl" mt={1} fontFamily={"Roboto"} color={"Black"}>
+                <Heading size="xl" mt={1} fontFamily={"Poppins"} color={"Black"}>
                   {product.title}
                 </Heading>
 

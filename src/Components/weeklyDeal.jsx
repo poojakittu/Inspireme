@@ -9,6 +9,7 @@ import {
   background,
 } from "@chakra-ui/react";
 import Counter1 from "./c1";
+import "@fontsource/poppins";
 
 const WeeklyDeal = () => {
   return (
@@ -23,31 +24,29 @@ const WeeklyDeal = () => {
         w="90%"
         margin={"auto"}
         bg={"#f1f5f8"}
-        
       >
-        <Box width={"100%"} p={"10"} >
+        <Box width={"100%"} p={"10"}>
           <Image src="design.PNG" alt="Image" width={"100%"} height={"310px"} />
         </Box>
-        <Box
-          display={"grid"}
-          justifyContent={"center"}
-          pt={"70px"}
-          
-        >
-          <Heading fontSize={"24"}>Weekly deal</Heading>
-          <Text fontSize={"14"} mt={"-60px"}>
+        <Box display={"grid"} justifyContent={"center"} pt={"70px"}>
+          <Heading fontSize={"24"} fontFamily={"Poppins"}>
+            Weekly deal
+          </Heading>
+          <Text fontSize={"14"} mt={"-60px"} fontFamily={"Poppins"}>
             Mega sale hurry up!
           </Text>
           <Counter1 />
 
           <Button
-            mt={"-50px"}
+            fontFamily={"Poppins"}
             variant="outline"
             borderColor="black"
             color="black"
             bg="white"
             _hover={{ bg: "gray.100" }}
             _active={{ bg: "gray.200" }}
+            w={"50%"}
+            m={"auto"}
           >
             See Collection
           </Button>

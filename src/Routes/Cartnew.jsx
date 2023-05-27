@@ -20,6 +20,7 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
+import "@fontsource/poppins";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -29,6 +30,17 @@ const Cartnew = () => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const [promoCode, setPromoCode] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Perform any necessary actions with the promoCode value
+    console.log(promoCode);
+  };
+
+  const handleChange = (event) => {
+    setPromoCode(event.target.value);
+  };
 
   useEffect(() => {
     fetchData();
@@ -108,7 +120,7 @@ const Cartnew = () => {
             />
           </Box>
           <Box>
-            <Text>
+            <Text fontFamily={"Poppins"}>
               Hey! It's lonely here.
               <br />
               Your bag seems to have no company.
@@ -159,98 +171,7 @@ const Cartnew = () => {
             flexDirection="column"
             w={{ lg: "50%", md: "50%", sm: "100%", base: "100%" }}
           >
-            {/* <Box bg="whitesmoke" borderRadius="10px" m="15px 30px">
-          <Heading as="h5" m="10px 0px" size="sm">
-            BONUS OFFERS
-          </Heading>
-
-          <Flex flexDirection="column" w="100%">
-            <Flex m="15px 30px">
-              <Image
-                border="1px solid black"
-                borderRadius="5px"
-                width="36px"
-                height="48px"
-                src=""
-                alt=""
-              />
-              <Flex flexDirection="column" w="100%" ml="10px">
-                <Text
-                  alignSelf="flex-start"
-                  h="50%"
-                  line-height="14px"
-                  fontSize="12px"
-                >
-                  cartImages.description
-                </Text>
-                <Heading alignSelf="flex-start" h="50%" as="h6" size="xs">
-                  cartImages[0].price
-                </Heading>
-              </Flex>
-              <button
-                // onClick={() => dispatch(addToCart(cartImages[0]))}
-                style={{
-                  width: "180px",
-                  color: "white",
-                  backgroundColor: "black",
-                  borderRadius: "5px",
-                  margin: "6px",
-                }}
-              >
-                ADD TO CART
-              </button>
-            </Flex>
-
-            <div
-              style={{
-                borderTop: "1px dashed grey",
-                width: "90%",
-                margin: "auto",
-              }}
-            ></div>
-
-            <Flex m="15px 30px">
-              <Image
-                border="1px solid black"
-                borderRadius="5px"
-                width="36px"
-                height="48px"CartProduc
-                src=""
-                alt=""
-              />
-              <Flex
-                justifyContent="space-between"
-                ml="10px"
-                flexDirection="column"
-                w="100%"
-              >
-                <Text
-                  alignSelf="flex-start"
-                  h="50%"
-                  line-height="14px"
-                  fontSize="12px"
-                >
-                  cartImages[1].description
-                </Text>
-                <Heading alignSelf="flex-start" h="50%" size="xs">
-                  cartImages[1].price
-                </Heading>
-              </Flex>
-              <button
-                style={{
-                  width: "180px",
-                  color: "white",
-                  backgroundColor: "black",
-                  borderRadius: "5px",
-                  margin: "6px",
-                }}
-              >
-                ADD TO CART
-              </button>
-            </Flex>
-          </Flex>
-        </Box> */}
-            <Heading as="h5" m="10px 0px" size="sm">
+            <Heading as="h5" m="10px 0px" size="sm" fontFamily={"Poppins"}>
               CART SUMMARY
             </Heading>
             <Box
@@ -260,16 +181,16 @@ const Cartnew = () => {
               border="1px solid #e4e4e4"
             >
               {products.map((el) => (
-            <CartProduct
-              key={el.id}
-              id={el._id}
-              image={el.image}
-              title={el.title}
-              price={el.price}
-              quantity={el.quantity}
-              updateQuantity={updateQuantity}
-            />
-          ))}
+                <CartProduct
+                  key={el.id}
+                  id={el._id}
+                  image={el.image}
+                  title={el.title}
+                  price={el.price}
+                  quantity={el.quantity}
+                  updateQuantity={updateQuantity}
+                />
+              ))}
             </Box>
             <Box>
               <Heading as="h5" m="10px 0px" size="sm">
@@ -289,14 +210,7 @@ const Cartnew = () => {
                   <Flex justifyContent="space-between">
                     <Text>Tax</Text> <Text></Text>₹getTax
                   </Flex>
-                  {/* {isdiscount ? (
-                <Flex justifyContent="space-between">
-                  <Text>Discount</Text>{" "}
-                  <Text color="green">-₹{discount}</Text>
-                </Flex>
-              ) : (
-                <div></div>
-              )} */}
+
                   <Flex justifyContent="space-between">
                     <Text>Shipping</Text>
 
@@ -337,6 +251,39 @@ const Cartnew = () => {
               p="15px"
             >
               <AddressBook />
+            </Box>
+
+            <Box
+              bg="white"
+              borderRadius="10px"
+              m="35px 30px"
+              border="1px solid #e4e4e4"
+              p="15px"
+            >
+              <Heading fontSize={"21px"}>Promo Code*</Heading>
+              <Box
+                as="form"
+                onSubmit={handleSubmit}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexWrap="wrap"
+                pt={"20px"}
+                pb={"20px"}
+              >
+                <Input
+                  value={promoCode}
+                  onChange={handleChange}
+                  placeholder="Enter promo code"
+                  variant="filled"
+                  size="md"
+                  maxWidth="300px"
+                  mr={2}
+                />
+                <Button type="submit" colorScheme="green">
+                  Submit
+                </Button>
+              </Box>
             </Box>
           </Flex>
         </Box>

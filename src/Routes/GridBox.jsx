@@ -1,8 +1,8 @@
 import { Box, Grid, Icon, Heading, Text, Link } from "@chakra-ui/react";
-import { FiInfo } from "react-icons/fi";
+import { IoIosArrowForward } from "react-icons/io";
 import { CiDollar } from "react-icons/ci";
 import { RxCube } from "react-icons/rx";
-import "@fontsource/roboto";
+import "@fontsource/poppins";
 
 function GridBox() {
   return (
@@ -13,13 +13,13 @@ function GridBox() {
       mt={"140px"}
     >
       {/* Part 1 */}
-      <Box p={4} borderRadius="md" fontFamily={"Roboto"}>
-      <Icon as={RxCube} boxSize={14} color="gray" />
-        <Heading as="h3" fontSize="27px" mt={4} fontFamily={"Roboto"}>
+      <Box p={4} borderRadius="md"  fontFamily={"Poppins"}>
+        <Icon as={RxCube} boxSize={14} color="gray" />
+        <Heading as="h3" fontSize="27px" mt={4}  fontFamily={"Poppins"}>
           Free next-day delivery
         </Heading>
         <Text
-          fontFamily={"Roboto"}
+           fontFamily={"Poppins"}
           fontSize="22px"
           w={"70%"}
           m={"auto"}
@@ -31,20 +31,30 @@ function GridBox() {
           On select in-stock Apple products order by 5:00 p.m
         </Text>
         <Link color="blue.500">
-          <Box fontWeight={"800"} fontSize={"20px"}>
-            Learn more (<span>"&deg;"F</span>)
+        <Box
+            justifyContent="center"
+            alignItems="center"
+            color="blue"
+            display="flex"
+            gap="2px"
+            fontFamily="Poppins"
+            fontWeight={"800"}
+            fontSize={"20px"}
+          >
+            <a>Learn more</a>
+            <IoIosArrowForward fontSize="18px" />
           </Box>
         </Link>
       </Box>
 
       {/* Part 2 */}
-      <Box p={4} borderRadius="md" fontFamily={"Roboto"}>
+      <Box p={4} borderRadius="md"  fontFamily={"Poppins"}>
         <Icon as={CiDollar} boxSize={14} color="gray" />
-        <Heading as="h3" fontSize="27px" mt={4} fontFamily={"Roboto"}>
+        <Heading as="h3" fontSize="27px" mt={4}  fontFamily={"Poppins"}>
           Find the Card for you
         </Heading>
         <Text
-          fontFamily={"Roboto"}
+           fontFamily={"Poppins"}
           fontSize="22px"
           w={"80%"}
           m={"auto"}
@@ -56,8 +66,18 @@ function GridBox() {
           Get 3% Daily Cash with Apple Card or get special financing
         </Text>
         <Link color="blue.500">
-          <Box fontWeight={"800"} fontSize={"20px"}>
-            Learn more (<span>"&deg;"F</span>)
+          <Box
+            justifyContent="center"
+            alignItems="center"
+            color="blue"
+            display="flex"
+            gap="2px"
+            fontFamily="Poppins"
+            fontWeight={"800"}
+            fontSize={"20px"}
+          >
+            <a>Learn more</a>
+            <IoIosArrowForward fontSize="18px" />
           </Box>
         </Link>
       </Box>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "@fontsource/poppins";
 import {
   Box,
   Button,
@@ -8,7 +9,7 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-import "@fontsource/roboto";
+
 import { Link } from "react-router-dom";
 import ProductRow1 from "./small";
 import SmallMac from "./SmallMac";
@@ -16,11 +17,12 @@ import SmallAss from "./SmallAss";
 import SmallWatch from "./SmallWatch";
 import SmallIpad from "./SmallIPad";
 import GridBox from "./GridBox";
-import axios from "axios";
+
+
 
 const ProductRow = () => {
   return (
-    <Box w={"90%"} m={"auto"} pt={"180"} fontFamily={"Roboto"}>
+    <Box w={"90%"} m={"auto"} pt={"180"} fontFamily={"Poppins"}>
       <Box
         display="flex"
         flexDirection={{ base: "column", md: "row" }}
@@ -45,7 +47,7 @@ const ProductRow = () => {
             fontSize="6xl"
             display="flex"
             textAlign="center"
-            fontFamily={"Roboto"}
+            fontFamily={"Popins"}
             color={"black"}
             pl={"69px"}
           >
@@ -56,7 +58,7 @@ const ProductRow = () => {
             fontWeight="bold"
             mb={2}
             textAlign="center"
-            fontFamily={"Roboto"}
+            fontFamily={"Poppins"}
             color={"black"}
             pt={"20px"}
             pb={"16px"}
@@ -69,8 +71,8 @@ const ProductRow = () => {
             color="white"
             borderRadius="20px"
             _hover={{ bg: "gray.800" }}
-            ml={"159px"}
-            fontFamily={"Roboto"}
+           m="auto"
+            fontFamily={"Poppins"}
           >
             <Link to="/iphone">Buy Now</Link>
           </Button>
@@ -80,7 +82,8 @@ const ProductRow = () => {
           <Image
             src="applep.jpg"
             alt="Product Image"
-            width={{ base: "100%", md: "50%", lg: "100%" }}
+            width="381.33px"
+            height="402.02px"
             mr={{ base: 0, md: 4 }}
             mb={{ base: 4, md: 0 }}
           />{" "}
@@ -88,7 +91,7 @@ const ProductRow = () => {
       </Box>
 
       <Heading
-        fontFamily={"Roboto"}
+        fontFamily={"Poppins"}
         fontSize={"34px"}
         color={"Black"}
         letterSpacing="0.01em"
@@ -102,7 +105,7 @@ const ProductRow = () => {
 
       <Grid
         pt="80px"
-        width={"100%"}
+        width={"90%"}
         margin={"auto"}
         templateColumns={{
           base: "repeat(1, 1fr)",
@@ -114,9 +117,15 @@ const ProductRow = () => {
       >
         <Link to="/iphone">
           <Box>
-            <Image src="applep.jpg" alt="Dan Abramov" />
+            <Image
+              src="applep.jpg"
+              alt="iphone"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               iPhone
             </Text>
           </Box>
@@ -124,45 +133,76 @@ const ProductRow = () => {
 
         <Link to="/mac">
           <Box>
-            <Image src="applep.jpg" alt="Dan Abramov" />
+            <Image
+              src="mac.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               Mac
             </Text>
           </Box>
         </Link>
         <Link to="/mac">
-          <Box>
-            <Image src="applep.jpg" alt="Dan Abramov" />
+          <Box
+          >
+            <Image
+              src="imac.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               iMac
             </Text>
           </Box>
         </Link>
         <Link to="/ipad">
           <Box>
-            <Image src="applep.jpg" alt="Dan Abramov" />
+            <Image
+              src="watch.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               iPad
             </Text>
           </Box>
         </Link>
         <Link to="/watch">
           <Box>
-            <Image src="applep.jpg" alt="Dan Abramov" />
+            <Image
+              src="watch.jpg"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400" fontFamily={"Poppins"}>
               Watch
             </Text>
           </Box>
         </Link>
         <Link to="/acc">
           <Box>
-            <Image src="applep.jpg" alt="Dan Abramov" />
+            <Image
+              src="ass.png"
+              alt="Dan Abramov"
+              width={"151.07px"}
+              height={"151.07px"}
+              m="auto"
+            />
             <br />
-            <Text fontSize={"30px"} color={"#282828"} fontWeight="400">
+            <Text fontSize={"30px"} color={"#282828"} fontWeight="400"  fontFamily={"Poppins"}>
               Accessories
             </Text>
           </Box>

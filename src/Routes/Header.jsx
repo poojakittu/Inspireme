@@ -287,11 +287,12 @@ const Header = () => {
                   justifyContent={"right"}
                   alignItems={"right"}
                   textAlign={"right"}
-                  fontSize={"8px"}
+                  fontSize={"9px"}
                   p={"0px 0px"}
                   fontWeight={"700"}
                   w={"33%"}
-                  pr={"3px"}
+                  pr={"7px"}
+                  fontFamily={"Poppins"}
                 >
                   From ₹{model.perMonthEmi}/mo.Per Month with instant savings§§
                   and No Cost EMI§Footnoteor ₹{model.Actualprice}Footnote‡
@@ -313,9 +314,9 @@ const Header = () => {
             >
               Choose Your Color
             </Heading>
-            <Box mt={2}>
+            <Box mt={2} w={"40%"} display={"flex"}>
               {product.phoneColour.map((colour) => (
-                <Button
+                <Box
                   key={colour._id}
                   size="xs"
                   onClick={() => handleColorSelection(colour.color)}
@@ -371,7 +372,7 @@ const Header = () => {
                   justifyContent={"right"}
                   alignItems={"right"}
                   textAlign={"right"}
-                  fontSize={"8px"}
+                  fontSize={"11px"}
                   p={"0px 0px"}
                   fontWeight={"700"}
                   w={"58%"}
