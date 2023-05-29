@@ -14,6 +14,7 @@ export default function CartProduct({
 }) {
   const [quantity1, setQuantity1] = useState(quantity);
   const toast = useToast();
+
   const handleIncreaseQuantity = () => {
     const updatedQuantity = quantity1 + 1;
     setQuantity1(updatedQuantity);
@@ -22,7 +23,7 @@ export default function CartProduct({
 
   const handleDecreaseQuantity = () => {
     const updatedQuantity = quantity1 - 1;
-    if (updatedQuantity >= 0) {
+    if (updatedQuantity >= 1) {
       setQuantity1(updatedQuantity);
       updateQuantity(id, updatedQuantity);
     }
@@ -38,9 +39,7 @@ export default function CartProduct({
       .then((response) => {
         toast({
           title: `${title} Removed Successfully From Cart!!`,
-
           status: "success",
-
           isClosable: true,
           position: "top",
         });
@@ -49,9 +48,7 @@ export default function CartProduct({
       .catch((error) => {
         toast({
           title: "Error In Removing Product From Cart!!",
-
           status: "failure",
-
           isClosable: true,
           position: "top",
         });
@@ -86,10 +83,7 @@ export default function CartProduct({
             ₹{price}
           </Heading>
         </Flex>
-        {/* <button style={{ width: "180px", color: "white", backgroundColor: "black", borderRadius: "5px", margin: '6px'  }}>ADD TO CART</button>
-         */}
         <button onClick={() => handleDelete(id)}>
-          {" "}
           <RiDeleteBinLine />
         </button>
         <div

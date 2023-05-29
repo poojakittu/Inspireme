@@ -24,26 +24,24 @@ import ProductRow from "./Inspire";
 import Product from "./AdminProduct";
 import Newpage from "./Newpage";
 import PageList1 from "./Demo";
+import OrderPage from "./Orders";
 
 const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home></Home>}></Route>
       <Route path="/counter" element={<Counter1></Counter1>}></Route>
-      <Route path="/iphone" element={<Iphone></Iphone>}></Route>
-      <Route path="/ipad" element={<Ipad></Ipad>}></Route>
-      <Route path="/watch" element={<Watch></Watch>}></Route>
-      <Route path="/mac" element={<Mac></Mac>}></Route>
-      <Route path="/airpods" element={<Airpod></Airpod>}></Route>
-      <Route path="/tv" element={<TV></TV>}></Route>
-      <Route path="/acc" element={<Ass></Ass>}></Route>
+      <Route path="/iphone" element={<PrivateRoute><Iphone></Iphone></PrivateRoute>}></Route>
+      <Route path="/ipad" element={<PrivateRoute><Ipad></Ipad></PrivateRoute>}></Route>
+      <Route path="/watch" element={<PrivateRoute><Watch></Watch></PrivateRoute>}></Route>
+      <Route path="/mac" element={<PrivateRoute><Mac></Mac></PrivateRoute>}></Route>
+      <Route path="/airpods" element={<PrivateRoute><Airpod></Airpod></PrivateRoute>}></Route>
+      <Route path="/tv" element={<PrivateRoute><TV></TV></PrivateRoute>}></Route>
+      <Route path="/acc" element={<PrivateRoute><Ass></Ass></PrivateRoute>}></Route>
       <Route path="/extra" element={<PageList1></PageList1>}></Route>
-      <Route path="/new/:id" element={<Newpage></Newpage>}></Route>
-      <Route
-        path="/product/:id"
-        element={<SingleProductPage></SingleProductPage>}
-      ></Route>
-      <Route path="/cart" element={<Cartnew />}></Route>
+      <Route path="/new/:id" element={<PrivateRoute><Newpage></Newpage></PrivateRoute>}></Route>
+      
+      <Route path="/cart" element={<PrivateRoute><Cartnew /></PrivateRoute>}></Route>
       <Route path="/login" element={<Test />}></Route>
 
       <Route
@@ -54,7 +52,7 @@ const AllRoutes = () => {
           
         }
       ></Route>
-      <Route path="/orders" element={<Myorders />}></Route>
+      <Route path="/orders" element={<OrderPage/>}></Route>
       <Route path="/vendor" element={<Vendor />}></Route>
       <Route path="/checkout" element={<Checkout />}></Route>
       <Route path="/inspire" element={<ProductRow />}></Route>

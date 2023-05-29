@@ -15,7 +15,7 @@ const Iphone = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          "https://shy-puce-cheetah-hose.cyclic.app/product/alldata?category=iphone"
+          "https://shy-puce-cheetah-hose.cyclic.app/product/alldata?category=ipad"
         ); // Change the URL to your actual API endpoint
         const data = await response.json();
 
@@ -48,7 +48,7 @@ const Iphone = () => {
     <div style={{ marginTop: "130px" }}>
       <Box w="80%" m="auto" mt={["20px", "20px", "220px"]}>
         <Heading size="xl" fontFamily="Poppins">
-          Buy the all-new 24” iPhone.
+          Buy the all-new 24” iPad.
         </Heading>
         {loading ? (
           <Stack>
@@ -180,7 +180,7 @@ const Iphone = () => {
                       fontSize="15px"
                       fontWeight="500"
                     >
-                      <a>Learn more</a>
+                     Learn more
                       <IoIosArrowForward fontSize="14px" />
                     </Box>
                   </Link>

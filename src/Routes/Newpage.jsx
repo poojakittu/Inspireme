@@ -7,7 +7,7 @@ const Newpage = () => {
   return (
     <Box width={"90%"} m={"auto"}>
       <Headers />
-      <Middle />
+      
     </Box>
   );
 };

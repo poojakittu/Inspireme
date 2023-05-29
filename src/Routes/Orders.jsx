@@ -1,57 +1,127 @@
-import { useState, useEffect } from 'react';
-import { Container, List, ListItem, Text, Badge, Box, Image, Divider, Flex } from '@chakra-ui/react';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Heading,
+  Text,
+  Image,
+  Spinner,
+  useToast,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
+import axios from "axios";
 
-function MyOrders() {
+const OrderPage = () => {
+  const toast = useToast();
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch orders from a mock API
-    fetch('https://shy-puce-cheetah-hose.cyclic.app/order')
-      .then(response => response.json())
-      .then(data => setOrders(data));
+    fetchOrders();
   }, []);
 
-  return (
-    <Container maxW="container.lg" bg="gray.100" p={4} borderRadius="lg" mt="130px" boxShadow="md">
-      <Text fontSize="4xl" fontWeight="bold" mb={6}>My Orders</Text>
-      <List spacing={6}>
-        {orders.map(order => (
-          <ListItem key={order.id} bg="white" borderRadius="md" boxShadow="md"
-            _hover={{ bg: 'gray.200' }}
-            _focus={{ boxShadow: 'outline' }}>
-            <Box p={6}>
-              <Flex alignItems="center" justifyContent="space-between" mb={4}>
-                <Text fontWeight="bold">Order #{order.id}</Text>
-                <Badge colorScheme={order.completed ? 'green' : 'orange'}>{order.completed ? 'Delivered' : 'Processing'}</Badge>
-              </Flex>
-              <Flex alignItems="center" mb={4}>
-                <Image src="https://via.placeholder.com/120x120" alt="Product Image" mr={4} borderRadius="md" />
-                <Box>
-                  <Text fontWeight="bold">Product Name</Text>
-                  <Text>Price: $10</Text>
-                </Box>
-              </Flex>
-              <Divider my={4} />
-              <Flex alignItems="center" justifyContent="space-between">
-                <Box>
-                  <Text fontWeight="bold">Delivery Details:</Text>
-                  <Text>John Doe</Text>
-                  <Text>123 Main St.</Text>
-                  <Text>Anytown, USA 12345</Text>
-                  <Text>Delivery Date: 12/31/2023</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="bold">Payment Details:</Text>
-                  <Text>Card ending in 1234</Text>
-                  <Text>Amount: $10</Text>
-                </Box>
-              </Flex>
-            </Box>
-          </ListItem>
-        ))}
-      </List>
-    </Container>
-  );
-}
+  const fetchOrders = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("https://shy-puce-cheetah-hose.cyclic.app/order", {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      setOrders(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-export default MyOrders;
+  const handleButtonClick = (orderId) => {
+    // Handle button click based on order status
+    // You can implement the logic here to handle the button action
+  };
+
+  return (
+    <Box p={4} mt={"150px"}>
+      <Heading size="lg" mb={4}>
+        Your Orders
+      </Heading>
+      {orders.length === 0 ? (
+        <Text>No orders found.</Text>
+      ) : (
+        <Grid templateColumns="repeat(1, 1fr)" gap={4}>
+          {orders.map((order) => (
+            <GridItem
+              key={order._id}
+              borderWidth="1px"
+              borderRadius="lg"
+              p={4}
+              bg="gray.100"
+            >
+              <Text fontWeight="bold" mb={2}>
+                Order ID: {order._id}
+              </Text>
+              <Text>Username: {order.username}</Text>
+              <Text>Order Status: {order.orderStatus}</Text>
+              <Text>Shipping Address: {order.shippingAddress}</Text>
+              <Text>Total Price: ${order.totalprice}</Text>
+              <Text>Date: {order.orderDate}</Text>
+
+              {/* Render products */}
+              <Box mt={4}>
+                <Heading size="lg" mb={2}>
+                  Your Products
+                </Heading>
+                <Grid
+                  templateColumns="repeat(3, 1fr)"
+                  gap={4}
+                  textAlign={"left"}
+                >
+                  {order.products.map((product) => (
+                    <Box
+                      key={product.productId}
+                      mb={2}
+                      border={"1px solid blue"}
+                      borderRadius={"10px"}
+                      w={"100%"}
+                      m={"auto"}
+                      p={"20px"}
+                    >
+                      <Box w="50px" h="50px" bg="gray.200">
+                        <Image
+                          src={product.image}
+                          alt={product.title}
+                          w="100%"
+                          h="100%"
+                          objectFit="cover"
+                        />
+                      </Box>
+                      <Text fontSize={"20px"}>
+                        {" "}
+                        Product Name: {product.title}
+                      </Text>
+                      <Text fontSize={"20px"}>
+                        {" "}
+                        Quantity: {product.quantity}
+                      </Text>
+                      <Text fontSize={"20px"}>
+                        {" "}
+                        Price: {product.singleItemPrice}
+                      </Text>
+                      <Text fontSize={"20px"}> Colour: {product.colour}</Text>
+                      <Text fontSize={"20px"}> display: {product.display}</Text>
+                      <Text fontSize={"20px"}>
+                        {" "}
+                        Storage: {product.quantity}
+                      </Text>
+                    </Box>
+                  ))}
+                </Grid>
+              </Box>
+            </GridItem>
+          ))}
+        </Grid>
+      )}
+    </Box>
+  );
+};
+
+export default OrderPage;

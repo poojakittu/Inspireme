@@ -120,7 +120,7 @@ function AddressBook() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/address/add", {
+      const response = await fetch("https://shy-puce-cheetah-hose.cyclic.app/address/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -8,21 +8,16 @@ import {
   Input,
   Button,
   VStack,
-  Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  useToast,
 } from "@chakra-ui/react";
 import "@fontsource/poppins";
-
-import React from "react";
-
+import React, { useContext } from "react";
+import { AuthContext } from "../AuthContext";
+import { RiLogoutCircleFill } from "react-icons/ri";
 import { Search2Icon } from "@chakra-ui/icons";
 import { BsFillBagFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link } from "react-router-dom";
-
 import {
   Drawer,
   DrawerBody,
@@ -46,18 +41,29 @@ const Navbar = () => {
     { name: "Tv & Home", path: "/tv" },
     { name: "Accessories", path: "/acc" },
   ];
-  const options2 = [
-    { name: "Login", path: "/login" },
-    { name: "My Orders", path: "/orders" },
-    { name: "Profile", path: "/profile" },
-  ];
+  const { state, logoutUser } = useContext(AuthContext);
+
   const [query, setQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("/");
   const token = localStorage.getItem("token");
+  const toast = useToast()
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    logoutUser();
+    toast({
+      title: "Logged Out Successfully!!",
+
+      status: "success",
+
+      isClosable: true,
+      position: "top",
+    })
+    window.location.reload();
+  };
 
   const productlength = localStorage.getItem("productlength");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  let Company_Name = "Company Name";
+
   const btnRef = React.useRef();
   const [searchDisplay, setSearchDisplay] = useState("none");
 
@@ -78,9 +84,7 @@ const Navbar = () => {
     }
   };
 
-  const handleSuggestionClick = (product) => {
-    window.location.href = `/product/${product.id}`;
-  };
+ 
 
   const handleOptionClick = (path) => {
     setSelectedOption(path);
@@ -210,9 +214,16 @@ const Navbar = () => {
                 </Text>
               </Icon>
             </Link>
-            <Link to="/login">
-              <Icon as={FaUserAlt} boxSize={7} />
-            </Link>
+            {state.isAuth ? (
+              <Box onClick={handleLogout}>
+                {" "}
+                <Icon as={RiLogoutCircleFill} boxSize={8} mt={"4px"} />
+              </Box>
+            ) : (
+              <Link to="/login">
+                <Icon as={FaUserAlt} boxSize={7} />
+              </Link>
+            )}
           </HStack>
           <Icon
             position="absolute"
