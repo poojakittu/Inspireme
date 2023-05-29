@@ -9,16 +9,16 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import emailjs from "emailjs-com";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { Navigate,  } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
-import { useHistory } from "react-router-dom";
+
 emailjs.init("1bX-27Z6OMl9Yg_xt");
 
 const Test = () => {
   const [email, setEmail] = useState("");
   const [otp, setOTP] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-  const [enteredOTP, setEnteredOTP] = useState("");
+
   const [loggedIn, setLoggedIn] = useState(false);
   const toast = useToast();
   const { state, loginUser, logoutUser } = useContext(AuthContext);
@@ -37,10 +37,10 @@ const Test = () => {
 
   const generatedOTP = generateOTP();
   const handleSendOTP = async () => {
-    if (email === "" || email === undefined) {
+    if (email === "" || email === undefined || email === null) {
       toast({
         title: "Error",
-        description: "Please Enter Your Email Id",
+        description: "Please Enter Your Correct Email Id",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -63,7 +63,6 @@ const Test = () => {
       if (response.ok) {
         setOTP(generatedOTP);
         try {
-          
           // const response = await emailjs.send(
           //   "service_0fkgmse",
           //   "template_oi8rtkb",
