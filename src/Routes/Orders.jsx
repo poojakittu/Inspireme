@@ -4,12 +4,15 @@ import {
   Heading,
   Text,
   Image,
-  Spinner,
+  Flex,
   useToast,
   Grid,
   GridItem,
+  Spacer
 } from "@chakra-ui/react";
 import axios from "axios";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 
 const OrderPage = () => {
   const toast = useToast();
@@ -23,11 +26,14 @@ const OrderPage = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("https://shy-puce-cheetah-hose.cyclic.app/order", {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://shy-puce-cheetah-hose.cyclic.app/order",
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
       setOrders(response.data.data);
     } catch (error) {
       console.error(error);
@@ -41,6 +47,20 @@ const OrderPage = () => {
 
   return (
     <Box p={4} mt={"150px"}>
+       <Flex bg="white" h="50px" alignItems="center">
+          <Box ml="30px" mr="15px">
+            <Link to="/">Home</Link>
+          </Box>
+          <MdKeyboardArrowRight />
+          <Box ml="15px" fontWeight="600">
+          <Link to="/cart">Cart</Link>
+          </Box>
+          <MdKeyboardArrowRight />
+          <Box ml="15px" fontWeight="600">
+          <Link to="/orders">Order</Link>
+          </Box>
+          <Spacer />
+        </Flex>
       <Heading size="lg" mb={4}>
         Your Orders
       </Heading>
@@ -61,9 +81,28 @@ const OrderPage = () => {
               </Text>
               <Text>Username: {order.username}</Text>
               <Text>Order Status: {order.orderStatus}</Text>
-              <Text>Shipping Address: {order.shippingAddress}</Text>
               <Text>Total Price: ${order.totalprice}</Text>
+              <Text>Promo Code Discount:{order.promoDiscount ? `${order.promoDiscount}%` : "0"}</Text>
+              <Text>Dicounted Price: {order.discountedTotalprice}</Text>
               <Text>Date: {order.orderDate}</Text>
+              <Box
+                mt={8}
+                textAlign="left"
+                borderWidth="1px"
+                borderRadius="lg"
+                p={4}
+              >
+                <Heading fontWeight="450" fontSize="23px">
+                  Deliver to this address
+                </Heading>
+                <Text>
+                  {order.username}, {order.locality}, {order.address},{" "}
+                  {order.city}, {order.state}
+                </Text>
+                <Text>PinCode:{order.pincode}</Text>
+                <Text>Mobile Number:{order.Mobile}</Text>
+                <Text>Alternate Number:{order.alternatephone}</Text>
+              </Box>
 
               {/* Render products */}
               <Box mt={4}>

@@ -63,14 +63,15 @@ const Test = () => {
       if (response.ok) {
         setOTP(generatedOTP);
         try {
-          const response = await emailjs.send(
-            "service_0fkgmse",
-            "template_oi8rtkb",
-            {
-              to_email: email,
-              otp: generatedOTP,
-            }
-          );
+          
+          // const response = await emailjs.send(
+          //   "service_0fkgmse",
+          //   "template_oi8rtkb",
+          //   {
+          //     to_email: email,
+          //     otp: generatedOTP,
+          //   }
+          // );
 
           if (response.status === 200) {
             setOtpSent(true);

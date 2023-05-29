@@ -40,7 +40,14 @@ const Cartnew = () => {
   const [isAddAddressModalOpen2, setIsAddAddressModalOpen2] = useState(false);
   const [name, setname] = useState("");
   const [total, setTotal] = useState(0);
-  
+  const [promodata, setPromoData] = useState("");
+
+  let DiscountTotalval=0;
+   if(promodata!==""){
+    DiscountTotalval=(promodata / 100) * total;
+   }else{
+    DiscountTotalval=total
+   }
 
   const [newAddress, setNewAddress] = useState({
     name: "",
@@ -58,12 +65,15 @@ const Cartnew = () => {
 
   const fetchAddresses = async () => {
     try {
-      const response = await fetch("https://shy-puce-cheetah-hose.cyclic.app/address", {
-        headers: {
-          Authorization: `${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://shy-puce-cheetah-hose.cyclic.app/address",
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -75,6 +85,8 @@ const Cartnew = () => {
       console.error(error);
     }
   };
+
+  
 
   useEffect(() => {
     fetchAddresses();
@@ -136,12 +148,26 @@ const Cartnew = () => {
       console.error("Error while deleting address:", error);
     }
   };
- 
+  console.log(promodata);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/promos/promocodeoffer/${promoCode1}`
+        );
+        setPromoData(response.data[0].discount);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [promoCode1]);
 
   const handleSubmit = async () => {
     try {
       // Check if name and address are filled
-      if (!newAddress.name ) {
+      if (!newAddress.name) {
         // Display the toast notification for missing fields
         toast({
           title: "Incomplete Address",
@@ -151,7 +177,7 @@ const Cartnew = () => {
           isClosable: true,
         });
         return;
-      }else if (!newAddress.address) {
+      } else if (!newAddress.address) {
         // Display the toast notification for missing fields
         toast({
           title: "Incomplete Address",
@@ -161,8 +187,7 @@ const Cartnew = () => {
           isClosable: true,
         });
         return;
-      }
-      else if (!newAddress.pincode) {
+      } else if (!newAddress.pincode) {
         // Display the toast notification for missing fields
         toast({
           title: "Incomplete Pincode",
@@ -172,8 +197,7 @@ const Cartnew = () => {
           isClosable: true,
         });
         return;
-      }
-      else if (!newAddress.city) {
+      } else if (!newAddress.city) {
         // Display the toast notification for missing fields
         toast({
           title: "Incomplete City",
@@ -183,8 +207,7 @@ const Cartnew = () => {
           isClosable: true,
         });
         return;
-      }
-      else if (!newAddress.Mobile) {
+      } else if (!newAddress.Mobile) {
         // Display the toast notification for missing fields
         toast({
           title: "Incomplete Mobile",
@@ -194,8 +217,7 @@ const Cartnew = () => {
           isClosable: true,
         });
         return;
-      }
-      else if (!newAddress.state) {
+      } else if (!newAddress.state) {
         // Display the toast notification for missing fields
         toast({
           title: "Incomplete State",
@@ -206,7 +228,7 @@ const Cartnew = () => {
         });
         return;
       }
-  
+
       const response = await fetch(
         "https://shy-puce-cheetah-hose.cyclic.app/address/add",
         {
@@ -218,13 +240,13 @@ const Cartnew = () => {
           body: JSON.stringify(newAddress),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       await fetchAddresses(); // Fetch addresses again after adding a new address
-  
+
       setIsAddAddressModalOpen(false);
       setNewAddress({
         name: "",
@@ -238,7 +260,7 @@ const Cartnew = () => {
         alternatephone: "",
         addresstype: "",
       });
-  
+
       // Display the toast notification
       toast({
         title: "Address Added",
@@ -252,7 +274,6 @@ const Cartnew = () => {
       console.error(error);
     }
   };
-
 
   const handleOrderClick = () => {
     if (!selectedAddress) {
@@ -294,7 +315,9 @@ const Cartnew = () => {
         colour: product.color,
         status: "Pending",
       })),
-      promoCode:promoCode1,
+      promoCode: promoCode1,
+      promoDiscount: promodata,
+      discountedTotalprice: DiscountTotalval,
       addressId: selectedAddress._id,
     };
 
@@ -314,7 +337,7 @@ const Cartnew = () => {
           isClosable: true,
           position: "top",
         });
-        navigate("/orders")
+        navigate("/orders");
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -324,7 +347,6 @@ const Cartnew = () => {
           isClosable: true,
           position: "top",
         });
-
       });
   };
 
@@ -453,6 +475,10 @@ const Cartnew = () => {
           <Box ml="15px" fontWeight="600">
             Cart
           </Box>
+          <MdKeyboardArrowRight />
+          <Box ml="15px" fontWeight="600">
+          <Link to="/orders">Order</Link>
+          </Box>
           <Spacer />
         </Flex>
         <Box
@@ -502,8 +528,19 @@ const Cartnew = () => {
                   <Flex justifyContent="space-between">
                     <Text>Sub Total</Text> <Text>₹{total}</Text>
                   </Flex>
+
                   <Flex justifyContent="space-between">
-                    <Text>Tax</Text> <Text></Text>₹getTax
+                    <Text>Promo Code*</Text> <Text></Text>
+                    {promoCode1}
+                  </Flex>
+                  <Flex justifyContent="space-between">
+                    <Text>Promo Discount</Text> <Text>{promodata}%</Text>
+                  </Flex>
+                  <Flex justifyContent="space-between">
+                    <Text fontSize={"20px"} fontWeight={"500px"}>
+                      Discounted Price
+                    </Text>{" "}
+                    <Text fontSize={"20px"}>{DiscountTotalval}</Text>
                   </Flex>
 
                   <Flex justifyContent="space-between">
@@ -525,7 +562,7 @@ const Cartnew = () => {
                     Total
                   </Text>
                   <Text fontWeight="600" fontSize="20px">
-                    final price
+                    Final price
                   </Text>
                 </Flex>
               </Box>
