@@ -22,7 +22,7 @@ const Test = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const toast = useToast();
   const { state, loginUser, logoutUser } = useContext(AuthContext);
-  const [sentOTP, setSentOTP] = useState(false);
+ 
   const [verifiedOTP, setVerifiedOTP] = useState(false);
   const [otpCode, setOTPCode] = useState("");
 

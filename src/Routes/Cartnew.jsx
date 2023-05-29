@@ -41,13 +41,15 @@ const Cartnew = () => {
   const [name, setname] = useState("");
   const [total, setTotal] = useState(0);
   const [promodata, setPromoData] = useState("");
+  const[setAdmindiscount,setDiscountedAdminvalue]= useState("");
 
-  let DiscountTotalval=0;
-   if(promodata!==""){
-    DiscountTotalval=(promodata / 100) * total;
-   }else{
-    DiscountTotalval=total
-   }
+  let DiscountTotalval = 0;
+  if (promodata !== "") {
+    let valcty=(promodata / 100) * total;
+    DiscountTotalval=(setAdmindiscount/100)*valcty
+  } else {
+    DiscountTotalval = (setAdmindiscount/100)*total;
+  }
 
   const [newAddress, setNewAddress] = useState({
     name: "",
@@ -85,8 +87,6 @@ const Cartnew = () => {
       console.error(error);
     }
   };
-
-  
 
   useEffect(() => {
     fetchAddresses();
@@ -148,12 +148,12 @@ const Cartnew = () => {
       console.error("Error while deleting address:", error);
     }
   };
-  console.log(promodata);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/promos/promocodeoffer/${promoCode1}`
+          `https://shy-puce-cheetah-hose.cyclic.app/promos/promocodeoffer/${promoCode1}`
         );
         setPromoData(response.data[0].discount);
       } catch (error) {
@@ -164,64 +164,38 @@ const Cartnew = () => {
     fetchData();
   }, [promoCode1]);
 
+  useEffect(() => {
+    const fetchData1 = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/otp`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        setDiscountedAdminvalue(response.data.data[0].adminDiscount);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData1();
+  }, []);
+
   const handleSubmit = async () => {
     try {
       // Check if name and address are filled
-      if (!newAddress.name) {
+      if (
+        !newAddress.name ||
+        !newAddress.address ||
+        !newAddress.pincode ||
+        !newAddress.city ||
+        !newAddress.Mobile ||
+        !newAddress.state
+      ) {
         // Display the toast notification for missing fields
         toast({
           title: "Incomplete Address",
-          description: "Please enter your name ",
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        return;
-      } else if (!newAddress.address) {
-        // Display the toast notification for missing fields
-        toast({
-          title: "Incomplete Address",
-          description: "Please enter your Address",
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        return;
-      } else if (!newAddress.pincode) {
-        // Display the toast notification for missing fields
-        toast({
-          title: "Incomplete Pincode",
-          description: "Please enter your Pincode",
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        return;
-      } else if (!newAddress.city) {
-        // Display the toast notification for missing fields
-        toast({
-          title: "Incomplete City",
-          description: "Please enter your City",
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        return;
-      } else if (!newAddress.Mobile) {
-        // Display the toast notification for missing fields
-        toast({
-          title: "Incomplete Mobile",
-          description: "Please enter your Mobile",
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        return;
-      } else if (!newAddress.state) {
-        // Display the toast notification for missing fields
-        toast({
-          title: "Incomplete State",
-          description: "Please enter your State",
+          description: "Please fill in all the required fields",
           status: "warning",
           duration: 3000,
           isClosable: true,
@@ -272,6 +246,14 @@ const Cartnew = () => {
       });
     } catch (error) {
       console.error(error);
+      // Display the toast notification for the error
+      toast({
+        title: "Error",
+        description: "An error occurred while adding the address",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -477,7 +459,7 @@ const Cartnew = () => {
           </Box>
           <MdKeyboardArrowRight />
           <Box ml="15px" fontWeight="600">
-          <Link to="/orders">Order</Link>
+            <Link to="/orders">Order</Link>
           </Box>
           <Spacer />
         </Flex>
@@ -536,6 +518,9 @@ const Cartnew = () => {
                   <Flex justifyContent="space-between">
                     <Text>Promo Discount</Text> <Text>{promodata}%</Text>
                   </Flex>
+                  <Flex justifyContent="space-between">
+                    <Text>Admin Discount</Text> <Text>{setAdmindiscount}%</Text>
+                  </Flex>                  
                   <Flex justifyContent="space-between">
                     <Text fontSize={"20px"} fontWeight={"500px"}>
                       Discounted Price
