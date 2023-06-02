@@ -9,7 +9,7 @@ import emailjs from "emailjs-com";
 import { useNavigate } from "react-router-dom";
 emailjs.init("1bX-27Z6OMl9Yg_xt");
 
-function Login() {
+function Login1() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const toast = useToast();
@@ -20,56 +20,51 @@ function Login() {
   const [sentOTP, setSentOTP] = useState(false);
   const [verifiedOTP, setVerifiedOTP] = useState(false);
 
-  // const generateOTP = () => {
-  //   const digits = "0123456789";
-  //   let OTP = "";
-  //   for (let i = 0; i < 6; i++) {
-  //     OTP += digits[Math.floor(Math.random() * 10)];
-  //   }
-  //   return OTP;
-  // };
+  const generateOTP = () => {
+    const digits = "0123456789";
+    let OTP = "";
+    for (let i = 0; i < 6; i++) {
+      OTP += digits[Math.floor(Math.random() * 10)];
+    }
+    return OTP;
+  };
 
-  const handleSendOTP = async () => {
-    const generatedOTP = generateOTP();
 
-    try {
-      const response = await axios.post(
-        "https://shy-puce-cheetah-hose.cyclic.app/otp/send",
-        {
-          email,
-         otp:"12345"
-        }
-        );
+ const handleSendOTP = async () => {
+  const generatedOTP = generateOTP();
 
-      const emailSendResponse = await emailjs.send(
-        "service_0fkgmse",
-        "template_oi8rtkb",
-        // {
-        //   to_email: email,
-        //   otp: generatedOTP,
-        // }
+  try {
+    const otpSendResponse = await fetch("https://shy-puce-cheetah-hose.cyclic.app/otp/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        otp: generatedOTP,
+      }),
+    });
+
+    if (otpSendResponse.status === 200) {
+    const emailSendResponse = await emailjs.send(
+      'service_0fkgmse',
+      'template_oi8rtkb',
+      {
+        to_email: email,
+        otp: generatedOTP,
+      },
       );
-
-      if (response.status === 200) {
+      
         if (emailSendResponse.status === 200) {
-          setSentOTP(true);
-          toast({
-            title: "OTP Sent Successfully!!",
-            status: "success",
-            isClosable: true,
-            position: "top",
-          });
-        } else {
-          // Handle error in email sending
-          toast({
-            title: "Error In Sending OTP!!",
-            status: "failure",
-            isClosable: true,
-            position: "top",
-          });
-        }
+        setSentOTP(true);
+        toast({
+          title: "OTP Sent Successfully!!",
+          status: "success",
+          isClosable: true,
+          position: "top",
+        });
       } else {
-        // Handle error in OTP sending
+        // Handle error in email sending
         toast({
           title: "Error In Sending OTP!!",
           status: "failure",
@@ -77,8 +72,8 @@ function Login() {
           position: "top",
         });
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      // Handle error in OTP sending
       toast({
         title: "Error In Sending OTP!!",
         status: "failure",
@@ -86,8 +81,19 @@ function Login() {
         position: "top",
       });
     }
-  };
+  } catch (error) {
+    console.log(error);
+    toast({
+      title: "Error In Sending OTP!!",
+      status: "failure",
+      isClosable: true,
+      position: "top",
+    });
+  }
+};
 
+
+  
   const handleVerifyOTP = async () => {
     const response = await fetch(
       "https://shy-puce-cheetah-hose.cyclic.app/otp/verify",
@@ -263,4 +269,4 @@ function Login() {
   //   </Button>
   //   </Box>;
 }
-export default Login;
+export default Login1;
