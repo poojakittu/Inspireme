@@ -15,7 +15,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import "@fontsource/roboto";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { AiFillApple } from "react-icons/ai";
 import { BiCube } from "react-icons/bi";
@@ -27,6 +27,7 @@ import SmallAss1 from "./CartAss";
 import WeeklyDeal from "../Components/weeklyDeal";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [selectedColor, setSelectedColor] = useState("black");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -41,6 +42,14 @@ const Header = () => {
   const [selectedBodyDamage, setSelectedBodyDamage] = useState("");
   const [selectedBodyDamage1, setSelectedBodyDamage1] = useState("");
   const [selectedBodyDamage2, setSelectedBodyDamage2] = useState("");
+  const [selectedDes, setSelectedDes] = useState([]);
+  const [selectedBox, setSelectedBox] = useState("");
+
+  const handleBoxSelection = (boxName) => {
+    setSelectedBox(boxName);
+  };
+
+  console.log(selectedBox);
 
   useEffect(() => {
     fetchData();
@@ -67,6 +76,7 @@ const Header = () => {
     setSelectedBodyDamage(selectedPhone?.bodyDamage || "");
     setSelectedBodyDamage1(selectedPhone?.returnNoDamage || "");
     setSelectedBodyDamage2(selectedPhone?.screenDamage || "");
+    setSelectedDes(selectedPhone?.des || "");
   };
 
   let condition;
@@ -76,10 +86,18 @@ const Header = () => {
     condition = "Only body damage";
   } else if (selectedBodyDamage2 !== "" && selectedModel !== "") {
     condition = "Screen Damange";
-  } else if (selectedModel=="") {
+  } else if (selectedModel === "") {
     condition = "No data";
   }
-  console.log(selectedModel);
+
+  let appleCareDatamontly;
+  let applecareDataMrp;
+  if (selectedBox === "appleCare") {
+    appleCareDatamontly = product.AppleCareMontly;
+    applecareDataMrp = product.ApplecareMrp;
+  }
+  console.log(appleCareDatamontly);
+  console.log(applecareDataMrp);
 
   useEffect(() => {
     // Fetch the data from the API
@@ -91,13 +109,14 @@ const Header = () => {
         const data = await response.json();
         setProduct(data);
         setPrice(data.price);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [id]);
   const handleAddToCart = ({
     productId,
     title,
@@ -109,6 +128,9 @@ const Header = () => {
     price,
     mobileCondition,
     oldmobileModel,
+    selectedBox,
+    appleMrp,
+    appleMontly,
   }) => {
     if (color === "") {
       toast({
@@ -129,15 +151,13 @@ const Header = () => {
     } else if (storage === "") {
       toast({
         title: "Please select a storage",
-
         status: "error",
         duration: 3000,
         isClosable: true,
       });
-    } else if (quantity === "") {
+    } else if (selectedBox === null) {
       toast({
-        title: "Please select a quantity",
-
+        title: "Please Select Apple care",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -154,7 +174,11 @@ const Header = () => {
         quantity: quantity,
         oldmobileModel: oldmobileModel,
         mobileCondition: mobileCondition,
+        selectedBox: selectedBox,
+        appleCareMrp: appleMrp,
+        appleCareMontly: appleMontly,
       };
+      console.log(data);
 
       const token = localStorage.getItem("token");
 
@@ -174,6 +198,7 @@ const Header = () => {
             isClosable: true,
             position: "top",
           });
+          navigate("/cart");
         })
         .catch((error) => {
           console.log(error.response.data);
@@ -189,7 +214,6 @@ const Header = () => {
     }
   };
 
-  console.log(selectedModel);
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -317,7 +341,7 @@ const Header = () => {
           >
             {product.model.map((model) => (
               <Box
-                bg={"aliceblue"}
+                bg={display === model.display ? "#c1c1c1" : "aliceblue"}
                 borderRadius={"30px"}
                 padding={"6px 7px"}
                 border={"2px solid black"}
@@ -404,7 +428,7 @@ const Header = () => {
           >
             {product.storage.map((storage) => (
               <Box
-                bg={"aliceblue"}
+                bg={storage1 === storage.phoneStorage ? "#c1c1c1" : "aliceblue"}
                 borderRadius={"30px"}
                 padding={"6px 7px"}
                 border={"2px solid black"}
@@ -521,6 +545,9 @@ const Header = () => {
                   oldmobileModel: selectedModel,
                   mobileCondition: condition,
                   productId: product._id,
+                  selectedBox: selectedBox,
+                  appleMrp: applecareDataMrp,
+                  appleMontly: appleCareDatamontly,
                 })
               }
             >
@@ -532,7 +559,7 @@ const Header = () => {
 
       {/* ^^^^^^^^^^^^^^^^^^^^^^^^ Header &&&&&&&&&&&&&&&&&&&&&&&& */}
       <Box mt={["13%", "13%", "3%"]}>
-        <Heading fontSize={"30px"}>
+        <Heading fontSize={"30px"} textAlign={"left"}>
           Exchange Your Old Phone &Get ₹2200.00-₹57800.00 credit towards your
           new iPhone.
         </Heading>
@@ -541,6 +568,8 @@ const Header = () => {
           display={"flex"}
           flexDirection={["column", "column", "row"]}
           gap={"20px"}
+          w={"95%"}
+          m={"auto"}
           mt={["14%", "14%", "4%"]}
         >
           <Box
@@ -588,7 +617,7 @@ const Header = () => {
               mt="2%"
               w={"sm"}
               variant="filled"
-              placeholder="Apple"
+              placeholder="Please select your Phone Model"
             >
               {oldPhones.map((oldPhone, index) => (
                 <option key={index} value={oldPhone.modelName}>
@@ -599,18 +628,15 @@ const Header = () => {
             <Heading fontSize={"22px"} mt="5%" textAlign={"left"}>
               Please Select Your phone condition
             </Heading>
-            <UnorderedList>
-              <ListItem textAlign={"left"}>
-                If conditions of your old phone doesn't match as declared below,
-                you can still get the partial discount,by paying diffrence in
-                discount to our delivery agent
-              </ListItem>
-              <ListItem textAlign={"left"}>
-                If your old phone falls verification at time of pickup,you can
-                pay the exchange discount amount by Card or Cash and still get
-                thr new phone delivered.
-              </ListItem>
-            </UnorderedList>
+            {selectedModel && (
+              <UnorderedList>
+                {selectedDes.map((item, index) => (
+                  <ListItem textAlign={"left"} key={index}>
+                    {item}
+                  </ListItem>
+                ))}
+              </UnorderedList>
+            )}
 
             {selectedModel && (
               <Box
@@ -788,10 +814,14 @@ const Header = () => {
               padding={"10px"}
               border={"1px solid #c1c1c1"}
               pt={"10px"}
+              bg={selectedBox === "appleCare" ? "#c1c1c1" : "white"}
+              onClick={() => handleBoxSelection("appleCare")}
             >
               <Box display={"flex"} gap={"5px"} pl={"20px"} pt={"10px"}>
                 <AiFillApple color="red" fontSize={"19px"} />
-                <Heading fontSize={"19px"}>AppleCare+</Heading>
+                <Heading fontSize={"19px"} fontFamily={"Roboto"}>
+                  AppleCare+
+                </Heading>
               </Box>
               <Text
                 color={"gray"}
@@ -800,8 +830,9 @@ const Header = () => {
                 textAlign={"left"}
                 pl={"25px"}
                 pt={"10px"}
+                fontFamily={"Roboto"}
               >
-                From ₹ 4817.00/mo.
+                From ₹{product.AppleCareMontly}.00/mo.
               </Text>
               <Text
                 color={"gray"}
@@ -809,35 +840,36 @@ const Header = () => {
                 fontWeight={"600"}
                 textAlign={"left"}
                 pl={"25px"}
+                fontFamily={"Roboto"}
               >
-                or MRP ₹28900(inc.of all taxes)
+                or MRP ₹{product.ApplecareMrp}00(inc.of all taxes)
               </Text>
               <br />
               <hr />
               <UnorderedList mt="2%" pl={"10px"}>
-                <Text
-                  color={"gray"}
-                  fontSize={"14px"}
-                  fontWeight={"600"}
-                  textAlign={"left"}
-                  pl={"22px"}
-                  pt={"10px"}
-                >
-                  <ListItem>
-                    Get unlimited repairs for accidental damage
-                    protection,Apple-certified repairs,and priority access to
-                    Apple expert.
+                {product.ApplecareDes.map((item, index) => (
+                  <ListItem
+                    textAlign={"left"}
+                    key={index}
+                    fontFamily={"Roboto"}
+                    color={"gray"}
+                    fontSize={"17px"}
+                  >
+                    {item}
                   </ListItem>
-                  <br />
-                </Text>
+                ))}
+                <br />
               </UnorderedList>
             </Box>
+
             <Box
               borderRadius={"20px"}
               padding={"10px"}
               border={"1px solid #c1c1c1"}
               p={"10px"}
               pt={"10px"}
+              bg={selectedBox === "noAppleCare" ? "#c1c1c1" : "white"}
+              onClick={() => handleBoxSelection("noAppleCare")}
             >
               <Heading
                 fontSize={"19px"}
@@ -845,17 +877,16 @@ const Header = () => {
                 pl={"10px"}
                 pt={"10px"}
               >
-                No AppleCare+Coverage
+                No AppleCare+ Coverage
               </Heading>
             </Box>
           </Box>
         </Box>
 
-        <Box mb={["25%", "25%", "15%"]}>
-          <Heading fontSize={"30px"}>Choose Accessories</Heading>
+       
 
-          <SmallAss1 />
-        </Box>
+          <SmallAss1 name={product.name}/>
+       
 
         <Box
           mb={["15%", "15%", "10%"]}
@@ -890,7 +921,7 @@ const Header = () => {
               display={"flex"}
               gap={"2px"}
             >
-              <a>Learn more</a>
+          Learn more
               <IoIosArrowForward fontSize={"14px"} />
             </Box>
           </Box>
@@ -916,7 +947,7 @@ const Header = () => {
               display={"flex"}
               gap={"2px"}
             >
-              <a>Learn more</a>
+            Learn more
               <IoIosArrowForward fontSize={"14px"} />
             </Box>
           </Box>
@@ -942,7 +973,7 @@ const Header = () => {
               display={"flex"}
               gap={"2px"}
             >
-              <a>Learn more</a>
+            Learn more
               <IoIosArrowForward fontSize={"14px"} />
             </Box>
           </Box>

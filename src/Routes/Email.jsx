@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   Box,
   Button,
-  Heading,
+
   Input,
   Text,
   VStack,
   useToast,
 } from "@chakra-ui/react";
 import emailjs from "emailjs-com";
-import { Navigate,  } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 
 emailjs.init("1bX-27Z6OMl9Yg_xt");
@@ -22,7 +22,7 @@ const Test = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const toast = useToast();
   const { state, loginUser, logoutUser } = useContext(AuthContext);
- 
+
   const [verifiedOTP, setVerifiedOTP] = useState(false);
   const [otpCode, setOTPCode] = useState("");
 
@@ -166,7 +166,7 @@ const Test = () => {
         {!otpSent ? (
           <Box
             display="flex"
-            justifyContent="space-between"
+            justifyContent="center"
             flexWrap="wrap"
             alignItems="center"
           >
@@ -186,25 +186,25 @@ const Test = () => {
               required
             />
 
-            <button
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "50px",
-                width: "150px",
-              }}
+            <Button
+              bg="black"
+              color="white"
+              px="20px"
+              py="10px"
+              borderRadius="50px"
+              width="150px"
+              mt={{ base: "40px", md: "0" }}
               onClick={handleSendOTP}
             >
               Generate OTP
-            </button>
+            </Button>
           </Box>
         ) : (
           <Box
-            display="flex"
-            justifyContent="space-between"
-            flexWrap="wrap"
-            alignItems="center"
+          display="flex"
+          justifyContent="center"
+          flexWrap="wrap"
+          alignItems="center"
           >
             <Input
               type="text"
@@ -219,18 +219,18 @@ const Test = () => {
               bg={"#edf2f7"}
               required
             />
-            <button
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "50px",
-                width: "150px",
-              }}
+            <Button
+              bg="black"
+              color="white"
+              px="20px"
+              py="10px"
+              borderRadius="50px"
+              width="150px"
+              mt={{ base: "40px", md: "0" }}
               onClick={(e) => handleLogin(e.target.value)}
             >
               Verify Now
-            </button>
+            </Button>
           </Box>
         )}
         {loggedIn && (

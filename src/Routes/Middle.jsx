@@ -31,7 +31,9 @@ const Middle = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://shy-puce-cheetah-hose.cyclic.app/old");
+      const response = await fetch(
+        "https://shy-puce-cheetah-hose.cyclic.app/old"
+      );
       const data = await response.json();
       setOldPhones(data);
     } catch (error) {
@@ -50,8 +52,8 @@ const Middle = () => {
     setSelectedBodyDamage2(selectedPhone?.screenDamage || "");
   };
   return (
-    <Box mt={["13%", "13%", "3%"]}>
-      <Heading fontSize={"30px"}>
+    <Box m={"auto"} mt={["13%", "13%", "3%"]} w={"95%"}>
+      <Heading fontSize={"30px"} textAlign={"left"}>
         Exchange Your Old Phone &Get ₹2200.00-₹57800.00 credit towards your new
         iPhone.
       </Heading>
@@ -60,7 +62,9 @@ const Middle = () => {
         display={"flex"}
         flexDirection={["column", "column", "row"]}
         gap={"20px"}
+        m={"auto"}
         mt={["14%", "14%", "4%"]}
+        w={"95%"}
       >
         <Box
           w={["100%", "100%", "30%"]}
@@ -101,7 +105,7 @@ const Middle = () => {
             mt="2%"
             w={"sm"}
             variant="filled"
-            placeholder="Apple"
+            placeholder="Please Select Your Phone Model"
           >
             {oldPhones.map((oldPhone, index) => (
               <option key={index} value={oldPhone.modelName}>
@@ -173,7 +177,9 @@ const Middle = () => {
               >
                 <Box mb="5%" display={"flex"}>
                   <input type="radio" />
-                  <Heading fontSize={"20px"}pl={"2px"}>Only body damage</Heading>
+                  <Heading fontSize={"20px"} pl={"2px"}>
+                    Only body damage
+                  </Heading>
                 </Box>
                 <Heading
                   mb="5%"
@@ -390,7 +396,7 @@ const Middle = () => {
             display={"flex"}
             gap={"2px"}
           >
-            <a>Learn more</a>
+          Learn more
             <IoIosArrowForward fontSize={"14px"} />
           </Box>
         </Box>
@@ -410,7 +416,7 @@ const Middle = () => {
             display={"flex"}
             gap={"2px"}
           >
-            <a>Learn more</a>
+           Learn more
             <IoIosArrowForward fontSize={"14px"} />
           </Box>
         </Box>
@@ -430,17 +436,13 @@ const Middle = () => {
             display={"flex"}
             gap={"2px"}
           >
-            <a>Learn more</a>
+           Learn more
             <IoIosArrowForward fontSize={"14px"} />
           </Box>
         </Box>
       </Box>
 
-      
-        
-
-        <WeeklyDeal />
-      
+      <WeeklyDeal />
     </Box>
   );
 };

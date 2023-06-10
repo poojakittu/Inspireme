@@ -63,7 +63,7 @@ const ProductRow1 = () => {
       >
         {displayProducts.map((product, index) => (
           <Box
-            key={product.id}
+            key={product._id}
             p={5}
             borderRadius={"50px"}
             width="100%"

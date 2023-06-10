@@ -26,6 +26,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import CartProduct from "../Components/Cart/CartProduct";
+import Middle from "./Middle";
 
 const Cartnew = () => {
   const navigate = useNavigate();
@@ -33,22 +34,22 @@ const Cartnew = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [promoCode, setPromoCode] = useState("");
-  const [promoCode1, setPromoCode1] = useState("");
+  const [promoCode1, setPromoCode1] = useState(0);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
   const [isAddAddressModalOpen2, setIsAddAddressModalOpen2] = useState(false);
   const [name, setname] = useState("");
   const [total, setTotal] = useState(0);
-  const [promodata, setPromoData] = useState("");
-  const[setAdmindiscount,setDiscountedAdminvalue]= useState("");
+  const [promodata, setPromoData] = useState(0);
+  const [setAdmindiscount, setDiscountedAdminvalue] = useState("");
 
   let DiscountTotalval = 0;
   if (promodata !== "") {
-    let valcty=(promodata / 100) * total;
-    DiscountTotalval=(setAdmindiscount/100)*valcty
+    let valcty = (promodata / 100) * total;
+    DiscountTotalval = (setAdmindiscount / 100) * valcty;
   } else {
-    DiscountTotalval = (setAdmindiscount/100)*total;
+    DiscountTotalval = (setAdmindiscount / 100) * total;
   }
 
   const [newAddress, setNewAddress] = useState({
@@ -411,6 +412,7 @@ const Cartnew = () => {
           gap="10px"
           p="20px"
         >
+          
           <Box m="auto" w="fit-content">
             {" "}
             <img
@@ -491,9 +493,43 @@ const Cartnew = () => {
                   title={el.title}
                   price={el.price}
                   quantity={el.quantity}
+                  colour={el.color}
                   updateQuantity={updateQuantity}
+                  productId={el.productId}
                 />
               ))}
+            </Box>
+            <Box
+              bg="white"
+              borderRadius="10px"
+              m="35px 30px"
+              border="1px solid #e4e4e4"
+              p="15px"
+            >
+              <Heading fontSize={"21px"}>Promo Code*</Heading>
+              <Box
+                as="form"
+                onSubmit={handleSubmit1}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexWrap="wrap"
+                pt={"20px"}
+                pb={"20px"}
+              >
+                <Input
+                  value={promoCode}
+                  onChange={handleChange}
+                  placeholder="Enter promo code"
+                  variant="filled"
+                  size="md"
+                  maxWidth="300px"
+                  mr={2}
+                />
+                <Button type="submit" colorScheme="green">
+                  Submit
+                </Button>
+              </Box>
             </Box>
             <Box>
               <Heading as="h5" m="10px 0px" size="sm">
@@ -520,7 +556,7 @@ const Cartnew = () => {
                   </Flex>
                   <Flex justifyContent="space-between">
                     <Text>Admin Discount</Text> <Text>{setAdmindiscount}%</Text>
-                  </Flex>                  
+                  </Flex>
                   <Flex justifyContent="space-between">
                     <Text fontSize={"20px"} fontWeight={"500px"}>
                       Discounted Price
@@ -579,13 +615,39 @@ const Cartnew = () => {
                       m="auto"
                       alignItems="center"
                       justifyContent="center"
-                      gap="40px"
+                      flexWrap="wrap"
+                      gap={2}
                     >
-                      <Button onClick={handleAddAddress} mb={4}>
-                        Add Address
+                      <Button
+                        onClick={handleAddAddress}
+                        width={["100%", "auto"]}
+                        mr={[0, 2]}
+                        mb={2}
+                      >
+                        Shipping Address
                       </Button>
-                      <Button onClick={handleAddAddress2} mb={4}>
-                        Select Address
+                      
+                      <Button
+                        onClick={handleAddAddress2}
+                        width={["100%", "auto"]}
+                        mb={2}
+                      >
+                        Select Shipping Address
+                      </Button>
+                      <Button
+                        onClick={handleAddAddress}
+                        width={["100%", "auto"]}
+                        mr={[0, 2]}
+                        mb={2}
+                      >
+                        Billing Address
+                      </Button>
+                      <Button
+                        onClick={handleAddAddress2}
+                        width={["100%", "auto"]}
+                        mb={2}
+                      >
+                        Select Billing Address
                       </Button>
                     </Flex>
                   </Box>
@@ -595,7 +657,10 @@ const Cartnew = () => {
                       Add Address
                     </Heading>
                     <Button onClick={handleAddAddress} mb={4}>
-                      Add Address
+                      Shipping Address
+                    </Button>
+                    <Button onClick={handleAddAddress} mb={4} ml={"10px"}>
+                      Billing Address
                     </Button>
                   </Box>
                 )}
@@ -774,39 +839,6 @@ const Cartnew = () => {
                     </Text>
                   </Box>
                 )}
-              </Box>
-            </Box>
-
-            <Box
-              bg="white"
-              borderRadius="10px"
-              m="35px 30px"
-              border="1px solid #e4e4e4"
-              p="15px"
-            >
-              <Heading fontSize={"21px"}>Promo Code*</Heading>
-              <Box
-                as="form"
-                onSubmit={handleSubmit1}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                flexWrap="wrap"
-                pt={"20px"}
-                pb={"20px"}
-              >
-                <Input
-                  value={promoCode}
-                  onChange={handleChange}
-                  placeholder="Enter promo code"
-                  variant="filled"
-                  size="md"
-                  maxWidth="300px"
-                  mr={2}
-                />
-                <Button type="submit" colorScheme="green">
-                  Submit
-                </Button>
               </Box>
             </Box>
           </Flex>

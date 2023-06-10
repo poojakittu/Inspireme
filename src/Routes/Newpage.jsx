@@ -6,8 +6,7 @@ import { Box } from "@chakra-ui/react";
 const Newpage = () => {
   return (
     <Box width={"90%"} m={"auto"}>
-      <Headers />
-      
+      <Headers />   
     </Box>
   );
 };

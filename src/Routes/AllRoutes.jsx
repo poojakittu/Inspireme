@@ -25,6 +25,7 @@ import Product from "./AdminProduct";
 import Newpage from "./Newpage";
 import PageList1 from "./Demo";
 import OrderPage from "./Orders";
+import SearchedProduct from "../Components/SearchedProduct";
 
 const AllRoutes = () => {
   return (
@@ -41,7 +42,7 @@ const AllRoutes = () => {
       <Route path="/extra" element={<PageList1></PageList1>}></Route>
       <Route path="/new/:id" element={<PrivateRoute><Newpage></Newpage></PrivateRoute>}></Route>
       
-      <Route path="/cart" element={<Cartnew />}></Route>
+      <Route path="/cart" element={<PrivateRoute><Cartnew /></PrivateRoute>}></Route>
       <Route path="/login" element={<Test />}></Route>
 
       <Route
@@ -52,13 +53,13 @@ const AllRoutes = () => {
           
         }
       ></Route>
-      <Route path="/orders" element={<OrderPage/>}></Route>
+      <Route path="/orders" element={<PrivateRoute><OrderPage/></PrivateRoute>}></Route>
       <Route path="/vendor" element={<Vendor />}></Route>
       <Route path="/checkout" element={<Checkout />}></Route>
-      <Route path="/inspire" element={<ProductRow />}></Route>
+      <Route path="/inspire" element={<PrivateRoute><ProductRow /></PrivateRoute>}></Route>
       <Route path="/vendorproduct/:id" element={<VendorProduct />}></Route>
       <Route path="/productAdd" element={<Product />}></Route>
-      {/* <Route path="/search" element={<SearchedProduct />} query /> */}
+      <Route path="/search" element={<PrivateRoute><SearchedProduct/></PrivateRoute>} query />
     </Routes>
   );
 };

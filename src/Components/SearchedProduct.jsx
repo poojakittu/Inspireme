@@ -1,229 +1,225 @@
-import { useState, useEffect } from "react";
-import { Box, Button, Flex, Image, Text, useToast, Alert,
-    AlertIcon,
-    AlertTitle,
-    AlertDescription, } from "@chakra-ui/react";
-    import { withRouter } from "react-router-dom";
-  import { BiShoppingBag } from "react-icons/bi";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Text,
+  Button,
+  Grid,
+  Image,
+  Heading,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from "@chakra-ui/react";
+import { IoIosArrowForward } from "react-icons/io";
+import { Stack, Skeleton } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import "@fontsource/poppins";
 
-  import {
-    
-    Grid,
-    Skeleton,
-  } from "@chakra-ui/react";
- 
-  import "../style/product.css";
-  
- 
-  import { Link } from "react-router-dom";
-  import axios from "axios";
-  import Filters from "../Routes/Filters";
- 
 const SearchedProduct = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const toast =  useToast()
-  const query = localStorage.getItem("searchquery");
-  useEffect(() => {
-   
-    console.log(query)
-    setSearchQuery(query);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    async function fetchSearchResults() {
+  const query = localStorage.getItem("searchquery");
+
+  useEffect(() => {
+    // Fetch the data from your backend API
+    const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`https://erin-tough-viper.cyclic.app/product/allproductdata?q=${query}&t=${Date.now()}`);
-       console.log(response.data)
-        setSearchResults(response.data.data);
-        setLoading(false)
+        setLoading(true);
+        const response = await fetch(
+          `https://shy-puce-cheetah-hose.cyclic.app/product/alldata?q=${query}`
+        ); // Change the URL to your actual API endpoint
+        const data = await response.json();
+
+        if (Array.isArray(data.data)) {
+          setProducts(data.data);
+          setLoading(false);
+        } else {
+          console.error("Fetched data is not an array:", data);
+        }
       } catch (error) {
-        console.error(error);
-        toast({
-          title: "An error occurred.",
-          description: "Could not fetch search results.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        console.error("Error fetching products:", error);
+        setLoading(false);
       }
-    }
-    
-    if (query) {
-      fetchSearchResults();
-    } else {
-      setSearchResults([]);
-    }
+    };
+
+    fetchData();
   }, [query]);
 
-  
-  const handleAddToCart = ({productId, title, image, price, selectedColor}) => {
-    const data = {
-      productId:productId,
-      title: title,
-      image: image,
-      price: price,
-      color: "selectedColor", 
-      size: "M", 
-      shipping: "standard", 
-      quantity: 1, 
-    };
-    const token = localStorage.getItem("token");
-    
-    axios.post("https://erin-tough-viper.cyclic.app/cart/add", data, {
-  headers: {
-    Authorization: `${token}`
-  }
-})
-.then((response) => {
-  toast({
-    title: "Product Added Successfully!!",
-
-    status: "success",
-
-    isClosable: true,
-    position: "top",
-  })
-})
-.catch((error) => {
-  toast({
-    title: "Error In Adding Product To Cart!!",
-
-    status: "error",
-
-    isClosable: true,
-    position: "top",
-  })
-});
+  const handleColorSelection = (productId, color, img1) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product._id === productId
+          ? { ...product, selectedColor: color, selectedImg: img1 }
+          : product
+      )
+    );
   };
 
   return (
-    <Box mt="140px">
-      <h1>Search Results for "{searchQuery}"</h1>
-      <div className="main">
-        <Filters />
-        {searchResults&&searchResults?.length !== 0 ?
-        <div className="products">
+    <div style={{ marginTop: "130px" }}>
+      {products && products?.length !== 0 ? (
+        <Box w="80%" m="auto" mt={["20px", "20px", "220px"]}>
+          <Heading size="xl" fontFamily="Poppins">
+            Search Result
+          </Heading>
+
           {loading ? (
-            <Box m="50px">
-              <Grid gap="10px" templateColumns="repeat(4, 1fr)">
-                <Skeleton height="314px" width="207px" />
-                <Skeleton height="314px" width="207px" />
-                <Skeleton height="314px" width="207px" />
-                <Skeleton height="314px" width="207px" />
-                <Skeleton height="314px" width="207px" />
-                <Skeleton height="314px" width="207px" />
-                <Skeleton height="314px" width="207px" />
+            <Stack>
+              {Array(18)
+                .fill()
+                .map((_, index) => (
+                  <Skeleton key={index} height="20px" />
+                ))}
+            </Stack>
+          ) : (
+            <Box>
+              <Grid
+                pt={4}
+                width="90%"
+                margin="auto"
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(4, 1fr)",
+                }}
+                gap={4}
+                justifyContent="center"
+              >
+                {products.map((product) => (
+                  <Box key={product._id} textAlign="center" p={4} w={"300px"}>
+                    {/* Render selected phone image */}
+                    {product.selectedColor &&
+                    product.selectedColor ===
+                      product.phoneColour.find(
+                        (colour) => colour.color === product.selectedColor
+                      )?.color ? (
+                      <Link to={`/new/${product._id}`}>
+                        <Box mt={4}>
+                          <Box mt={2} w="100%">
+                            <Image
+                              src={product.selectedImg}
+                              alt="Selected Phone"
+                              w="300px"
+                              h={"300px"}
+                              p={"10px"}
+                            />
+                          </Box>
+                        </Box>
+                      </Link>
+                    ) : (
+                      <Link to={`/new/${product._id}`}>
+                        <Box mt={4}>
+                          <Box mt={2} w="100%">
+                            <Image
+                              src={product.phoneColour[0].img1}
+                              alt="Selected Phone"
+                              w="300px"
+                              h={"300px"}
+                            />
+                          </Box>
+                        </Box>
+                      </Link>
+                    )}
+
+                    <Box
+                      mt={2}
+                      display="flex"
+                      justifyItems={"center"}
+                      width="60%"
+                      textAlign="center"
+                      m="auto"
+                      p="20px"
+                      justifyContent="center"
+                    >
+                      {product.phoneColour.map((colour) => (
+                        <Box
+                          key={colour.color}
+                          size="xs"
+                          onClick={() =>
+                            handleColorSelection(
+                              product._id,
+                              colour.color,
+                              colour.img1
+                            )
+                          }
+                          ml={2}
+                          backgroundColor={colour.color}
+                          height="10px"
+                          width="10px"
+                          borderRadius="50%"
+                          border="1px solid gray"
+                        />
+                      ))}
+                    </Box>
+                    <Link to={`/new/${product._id}`}>
+                      <Heading fontFamily="Poppins" mt={2} fontSize="3xl">
+                        {product.title}
+                      </Heading>
+                      <Text
+                        fontFamily="Poppins"
+                        mt={3}
+                        fontWeight="800"
+                        fontSize="19px"
+                        color="#393d3d"
+                      >
+                        {product.subTitle}
+                      </Text>
+                      <Text
+                        fontFamily="Poppins"
+                        mt={10}
+                        fontWeight="800"
+                        color="#393d3d"
+                      >
+                        From ₹{product.price}*
+                      </Text>
+
+                      <Button
+                        bg="#0071e3"
+                        borderRadius="20px"
+                        color="white"
+                        mt={4}
+                        fontFamily="Poppins"
+                        fontSize="14px"
+                        px="20px"
+                      >
+                        Buy
+                      </Button>
+
+                      <Box
+                        justifyContent="center"
+                        alignItems="center"
+                        mt="10%"
+                        color="blue"
+                        display="flex"
+                        gap="2px"
+                        fontFamily="Poppins"
+                        fontSize="15px"
+                        fontWeight="500"
+                      >
+                        Learn more
+                        <IoIosArrowForward fontSize="14px" />
+                      </Box>
+                    </Link>
+                  </Box>
+                ))}
               </Grid>
             </Box>
-          ) : (
-            searchResults?.map((e, i) => (
-              <Box
-                key={i}
-                mb="1%"
-                mt="2%"
-                textAlign="center"
-                line-spacing="0.05em"
-                fontFamily="Montserrat"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Link to={`/product/${e._id}`}>
-                  <Box overflow="hidden" h="318px">
-                    <Image
-                      className="productimg"
-                      src={e.image}
-                      h="318px"
-                      w="237.12px"
-                      mb="2%"
-                      m="auto"
-                    />
-                  </Box>
-                </Link>
-                <Text
-                  mb="2%"
-                  color="#282828"
-                  fontWeight={"400"}
-                  lineHeight="17px"
-                  fontSize="16px"
-                >
-                  {e.colour.length} color available
-                </Text>
-                <Text
-                  mb="2%"
-                  mt="2%"
-                  color={"#AAAAAA"}
-                  fontWeight={"400"}
-                  lineHeight="12.19px"
-                  fontSize="14px"
-                >
-                  {e.category}
-                </Text>
-                <Text
-                  mb="2%"
-                  color="#282828"
-                  fontWeight={"400"}
-                  lineHeight="17px"
-                  fontSize="16px"
-                >
-                  {e.title}
-                </Text>
-                <Text
-                  mb="1%"
-                  fontWeight={"700"}
-                  lineHeight="18px"
-                  color="#282828"
-                  fontSize="18px"
-                >
-                  Unit Price : {e.unitPrice}
-                </Text>
-                <Text
-                  mb="1%"
-                  fontWeight={"700"}
-                  lineHeight="18px"
-                  color="#282828"
-                  fontSize="18px"
-                >
-                  Pack Price : {e.packedPrice}
-                </Text>
-                <Text mb="2%">{e.star}</Text>
-                <Button
-                  fontSize={12}
-                  fontWeight={"bold"}
-                  border="2px solid #282828"
-                  gap="5px"
-                  mt="2%"
-                  borderRadius={"2px"}
-                  onClick={() => handleAddToCart({
-                    title: e.title,
-                    image: e.image[0],
-                    price: e.price,
-                    color: "selectedColor",
-                    size: "M", 
-                    shipping: "standard", 
-                    quantity: 1,
-                    productId: e._id})}
-                >
-                  <BiShoppingBag /> ADD TO CART
-                </Button>
-              </Box>
-            ))
           )}
-        </div>
-        : 
-        
-        <Box m="auto"  w="100%" textAlign="center"  >
-          
-          <Alert status='error'>
-  <AlertIcon />
-  <AlertTitle>No Product Availble For Selected Filter !</AlertTitle>
-  <AlertDescription>Change The Selected Filter To View Products.</AlertDescription>
-</Alert>
         </Box>
-        
-}
-      </div>
-    </Box>
+      ) : (
+        <Box m="auto" w="100%" textAlign="center">
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>No Product Availble For Selected Filter !</AlertTitle>
+            <AlertDescription>
+              Change The Selected Filter To View Products.
+            </AlertDescription>
+          </Alert>
+        </Box>
+      )}
+    </div>
   );
 };
 

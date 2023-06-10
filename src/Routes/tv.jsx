@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, Button, Grid, Image, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Button,
+  Grid,
+  Image,
+  Heading,
+  Select,
+} from "@chakra-ui/react";
 import { IoIosArrowForward } from "react-icons/io";
 import { Stack, Skeleton } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
@@ -8,6 +16,8 @@ import "@fontsource/poppins";
 const TV = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sortOrder, setSortOrder] = useState("");
+  console.log(sortOrder);
 
   useEffect(() => {
     // Fetch the data from your backend API
@@ -43,13 +53,33 @@ const TV = () => {
       )
     );
   };
+  const handleSort = (event) => {
+    const order = event.target.value;
+    setSortOrder(order);
+    let sortedProducts = [...products];
+    if (order === "lowToHigh") {
+      sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (order === "highToLow") {
+      sortedProducts.sort((a, b) => b.price - a.price);
+    }
+    setProducts(sortedProducts);
+  };
 
   return (
     <div style={{ marginTop: "130px" }}>
       <Box w="80%" m="auto" mt={["20px", "20px", "220px"]}>
         <Heading size="xl" fontFamily="Poppins">
-          Buy the all-new 24” TV & Home.
+          Buy the all-new 24” Tv & Home.
         </Heading>
+        <Select
+          placeholder="Sort Order"
+          value={sortOrder}
+          onChange={handleSort}
+          width="200px"
+        >
+          <option value="lowToHigh">Low to High</option>
+          <option value="highToLow">High to Low</option>
+        </Select>
         {loading ? (
           <Stack>
             {Array(18)
@@ -73,7 +103,7 @@ const TV = () => {
               justifyContent="center"
             >
               {products.map((product) => (
-                <Box key={product._id} textAlign="center" p={4}>
+                <Box key={product._id} textAlign="center" p={4} w={"300px"}>
                   {/* Render selected phone image */}
                   {product.selectedColor &&
                   product.selectedColor ===
@@ -81,24 +111,28 @@ const TV = () => {
                       (colour) => colour.color === product.selectedColor
                     )?.color ? (
                     <Link to={`/new/${product._id}`}>
-                      <Box mt={4}>
-                        <Box mt={2}>
+                      <Box mt={4} w="100%">
+                        <Box mt={2} w="100%">
                           <Image
                             src={product.selectedImg}
                             alt="Selected Phone"
                             w="100%"
+                            h={"300px"}
+                            m={"auto"}
                           />
                         </Box>
                       </Box>
                     </Link>
                   ) : (
                     <Link to={`/new/${product._id}`}>
-                      <Box mt={4}>
-                        <Box mt={2} w="300px">
+                      <Box mt={4} w="100%">
+                        <Box mt={2} w="100%">
                           <Image
                             src={product.phoneColour[0].img1}
                             alt="Selected Phone"
                             w="100%"
+                            h={"300px"}
+                            m={"auto"}
                           />
                         </Box>
                       </Box>
@@ -180,7 +214,7 @@ const TV = () => {
                       fontSize="15px"
                       fontWeight="500"
                     >
-                      <a>Learn more</a>
+                      Learn more
                       <IoIosArrowForward fontSize="14px" />
                     </Box>
                   </Link>

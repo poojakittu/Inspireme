@@ -11,6 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import "@fontsource/poppins";
+import { FaShoppingCart } from "react-icons/fa";
 import React, { useContext } from "react";
 import { AuthContext } from "../AuthContext";
 import { RiLogoutCircleFill } from "react-icons/ri";
@@ -28,8 +29,10 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import "@fontsource/cinzel-decorative";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaUserAlt } from "react-icons/fa";
+import axios from "axios";
+import Iphone from "../Routes/IPhone";
 
 const Navbar = () => {
   const options = [
@@ -42,11 +45,35 @@ const Navbar = () => {
     { name: "Accessories", path: "/acc" },
   ];
   const { state, logoutUser } = useContext(AuthContext);
+  const [totalValue, setTotalValue] = useState(0);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        "https://shy-puce-cheetah-hose.cyclic.app/cart",
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+      setTotalValue(response.data.Total);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const [query, setQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("/");
   const token = localStorage.getItem("token");
-  const toast = useToast()
+  console.log(query);
+  const toast = useToast();
   const handleLogout = () => {
     localStorage.removeItem("token");
     logoutUser();
@@ -57,7 +84,7 @@ const Navbar = () => {
 
       isClosable: true,
       position: "top",
-    })
+    });
     window.location.reload();
   };
 
@@ -83,8 +110,6 @@ const Navbar = () => {
       window.location.href = `/search?q=${query}`;
     }
   };
-
- 
 
   const handleOptionClick = (path) => {
     setSelectedOption(path);
@@ -150,7 +175,7 @@ const Navbar = () => {
             display={["none", "none", "none", "flex"]}
             justifyContent="center"
             gap="40px"
-            paddingLeft="50px"
+            paddingLeft="160px"
           >
             {options?.map((e, i) => (
               <Text
@@ -180,10 +205,11 @@ const Navbar = () => {
             position="absolute"
             size={"sm"}
             border="2px solid #ccc"
-            right={["10px", "20px", "20%", "19%"]}
+            right={["0px", "0px", "0%", "10%"]}
             value={query}
-            onChange={handleSearchBox}
-            onKeyPress={handleSearchEnter}
+            onChange={(event) => setQuery(event.target.value)}
+            onKeyDown={handleSearchEnter}
+            ml={"140px"}
           />
 
           <HStack
@@ -197,22 +223,20 @@ const Navbar = () => {
             <Icon as={Search2Icon} boxSize={7} onClick={handleSearch}></Icon>
 
             <Link to="/cart">
-              <Icon position="relative" as={BsFillBagFill} boxSize={7}>
-                <Text
-                  position="absolute"
-                  top="-2"
-                  borderRadius="50%"
-                  backgroundColor="grey"
-                  textAlign="center"
-                  color="white"
-                  w="20px"
-                  h="20px"
-                  left="40px"
-                  transform="translateX(-50%)"
-                >
-                  0
-                </Text>
-              </Icon>
+              <Icon position="relative" as={BsFillBagFill} boxSize={7} />
+              <Text
+                position="absolute"
+                top="2"
+                borderRadius="50%"
+                textAlign="center"
+                color="white"
+                w="20px"
+                h="20px"
+                left="75px"
+                transform="translateX(-50%)"
+              >
+                {totalValue}
+              </Text>
             </Link>
             {state.isAuth ? (
               <Box onClick={handleLogout}>
@@ -323,7 +347,8 @@ const Navbar = () => {
           value={query}
           onChange={handleSearchBox}
           onKeyPress={handleSearchEnter}
-        ></Input>
+          ml={"30px"}
+        />
       </Box>
     </>
   );

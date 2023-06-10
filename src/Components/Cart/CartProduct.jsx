@@ -3,6 +3,7 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 export default function CartProduct({
   id,
@@ -11,6 +12,8 @@ export default function CartProduct({
   price,
   quantity,
   updateQuantity,
+  colour,
+  productId
 }) {
   const [quantity1, setQuantity1] = useState(quantity);
   const toast = useToast();
@@ -58,13 +61,9 @@ export default function CartProduct({
   return (
     <div>
       <Flex key={id} p="6px">
-        <Image
-          borderRadius="5px"
-          width="36px"
-          height="48px"
-          src={image}
-          alt=""
-        />
+      <Link to={`/new/${productId}`}>
+        <Image borderRadius="5px" height="58px" src={image} alt="" />
+        </Link>
         <Flex
           justifyContent="space-between"
           ml="10px"
@@ -79,8 +78,12 @@ export default function CartProduct({
           >
             {title}{" "}
           </Text>
+
           <Heading alignSelf="flex-start" h="50%" size="xs">
             ₹{price}
+          </Heading>
+          <Heading alignSelf="flex-start" h="50%" size="xs">
+            {colour}
           </Heading>
         </Flex>
         <button onClick={() => handleDelete(id)}>

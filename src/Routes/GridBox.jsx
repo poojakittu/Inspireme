@@ -41,7 +41,7 @@ function GridBox() {
             fontWeight={"800"}
             fontSize={"20px"}
           >
-            <a>Learn more</a>
+          Learn more
             <IoIosArrowForward fontSize="18px" />
           </Box>
         </Link>
@@ -76,7 +76,7 @@ function GridBox() {
             fontWeight={"800"}
             fontSize={"20px"}
           >
-            <a>Learn more</a>
+           Learn more
             <IoIosArrowForward fontSize="18px" />
           </Box>
         </Link>
